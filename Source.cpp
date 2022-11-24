@@ -255,7 +255,7 @@ void QuickSort(LIST& ds)
 		ds.Tail = tag;
 	}
 }
-/*
+
 // Doc du lieu 1 ve tu file
 void Doc1Ve(ifstream& filein, VE& v)
 {
@@ -266,6 +266,7 @@ void Doc1Ve(ifstream& filein, VE& v)
 	getline(filein, v.TenKhachHang, ',');
 	filein.seekg(1, 1);
 	filein >> v.cccd;
+	filein.ignore();
 	filein.seekg(1, 1);
 	getline(filein, v.SoGhe, ',');
 	filein.seekg(1, 1);
@@ -274,6 +275,7 @@ void Doc1Ve(ifstream& filein, VE& v)
 	getline(filein, v.DiemDen, ',');
 	filein.seekg(1, 1);
 	filein >> v.cua;
+	filein.ignore();
 	filein.seekg(1, 1);
 	DocDate(filein, v.ThoiGianKhoiHanh);
 	filein.seekg(1, 1);
@@ -290,7 +292,7 @@ void DocDanhSachVe(ifstream& filein, LIST& ds)
 		ThemCuoi(ds, p);
 	}
 }
-*/
+
 void Xuat(VE v)
 {
 	cout << "\nHang Bay: " << v.HangBay;
@@ -298,7 +300,7 @@ void Xuat(VE v)
 	cout << "\nTen hanh khach: " << v.TenKhachHang;
 	cout << "\nCan cuoc cong dan: " << v.cccd;
 	cout << "\nSo ghe: " << v.SoGhe;
-	cout << "\nNoi Khoi Hanh" << v.DiemDi;
+	cout << "\nNoi Khoi Hanh: " << v.DiemDi;
 	cout << "\nNoi den: " << v.DiemDen;
 	cout << "\nCua: " << v.cua;
 	cout << "\nThoi gian khoi hanh: " << v.ThoiGianKhoiHanh.day << "/" << v.ThoiGianKhoiHanh.mon << "/" << v.ThoiGianKhoiHanh.year << "\t" << v.ThoiGianKhoiHanh.hour << ":" << v.ThoiGianKhoiHanh.min;
@@ -310,13 +312,30 @@ void XuatDanhSachVe(LIST ds)
 	int dem = 1;
 	for (NODE* i = ds.Head;i != NULL;i = i->Next)
 	{
-		cout << "\n\n\t\t" << dem++<<".";
+		cout <<"\n" << dem++ << ".";
 		Xuat(i->data);
 	}
 }
-
+void GiaiPhongVungNho(LIST& ds)
+{
+	NODE* k = new NODE;
+	while (ds.Head != NULL)
+	{
+		k = ds.Head;
+		ds.Head = ds.Head->Next;
+		ds.Head->Pre = NULL;
+		delete k;
+	}
+}
 int main()
 {
+	LIST ds;
+	KhoiTaoDanhSach(ds);
+	ifstream filein;
+	filein.open("danhsachve.txt", ios::in);
+	DocDanhSachVe(filein, ds);
+	XuatDanhSachVe(ds);
+	filein.close();
 
 
 	return 0;
