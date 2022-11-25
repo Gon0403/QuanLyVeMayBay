@@ -1,30 +1,30 @@
-#include<iostream>
-#include<string>
-#include<fstream>
+#include <iostream>
+#include <string>
+#include <fstream>
 using namespace std;
 
-struct date {
+struct date
+{
 	int min;
 	int hour;
 	int day;
 	int mon;
 	int year;
-
 };
 
 typedef struct date DATE;
 
-void DocDate(ifstream& filein, DATE& date)
+void DocDate(ifstream &filein, DATE &date)
 {
-	
+
 	filein >> date.day;
-	filein.seekg(1, 1); //dich sang phai 1 byte de bo qua ky tu /
+	// filein.seekg(1, ios::cur); // dich sang phai 1 byte de bo qua ky tu /
 	filein >> date.mon;
-	filein.seekg(1, 1); //dich sang phai 1 byte de bo qua ky tu /
+	// filein.seekg(1, ios::cur); // dich sang phai 1 byte de bo qua ky tu /
 	filein >> date.year;
-	filein.seekg(1, 1); //dich sang phai 1 byte de bo qua ky tu /
+	// filein.seekg(1, ios::cur); // dich sang phai 1 byte de bo qua ky tu /
 	filein >> date.hour;
-	filein.seekg(1, 1); //dich sang phai 1 byte de bo qua ky tu /
+	// filein.seekg(1, ios::cur); // dich sang phai 1 byte de bo qua ky tu /
 	filein >> date.min;
 }
 
@@ -41,37 +41,34 @@ struct ve
 	int cua;
 	DATE ThoiGianKhoiHanh;
 	float ThoiGianBay;
-	
-
 };
 typedef struct ve VE;
-
 
 struct node
 {
 	VE data{};
-	struct node* Next;
-	struct node* Pre;
+	struct node *Next;
+	struct node *Pre;
 };
 typedef struct node NODE;
 
 struct list
 {
-	NODE* Head;
-	NODE* Tail;
+	NODE *Head;
+	NODE *Tail;
 };
 
 typedef struct list LIST;
 
-void KhoiTaoDanhSach(LIST& ds)
+void KhoiTaoDanhSach(LIST &ds)
 {
 	ds.Head = NULL;
 	ds.Tail = NULL;
 }
 
-NODE* TaoNode(VE x)
+NODE *TaoNode(VE x)
 {
-	NODE* p = new NODE;
+	NODE *p = new NODE;
 	if (p == NULL)
 	{
 		cout << "Khoi tao ve khong thanh cong";
@@ -87,14 +84,14 @@ NODE* TaoNode(VE x)
 int TongSoLuongVe(LIST ds)
 {
 	int dem = 0;
-	for (NODE* i = ds.Head;i != NULL;i = i->Next)
+	for (NODE *i = ds.Head; i != NULL; i = i->Next)
 	{
 		dem++;
 	}
 	return dem;
 }
-//Them
-void ThemDau(LIST& ds, NODE* p)
+// Them
+void ThemDau(LIST &ds, NODE *p)
 {
 	if (ds.Head == NULL)
 	{
@@ -107,9 +104,9 @@ void ThemDau(LIST& ds, NODE* p)
 		ds.Head->Pre = p;
 		ds.Head = p;
 	}
-} 
+}
 
-void ThemCuoi(LIST& ds, NODE* p)
+void ThemCuoi(LIST &ds, NODE *p)
 {
 	if (ds.Head == NULL)
 	{
@@ -124,10 +121,10 @@ void ThemCuoi(LIST& ds, NODE* p)
 	}
 }
 
-void ThemGiua(LIST& ds, NODE* p, int vt)
+void ThemGiua(LIST &ds, NODE *p, int vt)
 {
 	int n = 0;
-	for (NODE* i = ds.Head;i != NULL;i = i->Next)
+	for (NODE *i = ds.Head; i != NULL; i = i->Next)
 	{
 		n++;
 	}
@@ -135,19 +132,19 @@ void ThemGiua(LIST& ds, NODE* p, int vt)
 	{
 		ThemDau(ds, p);
 	}
-	else if(vt==n+1)
+	else if (vt == n + 1)
 	{
 		ThemCuoi(ds, p);
 	}
 	else
 	{
 		int dem = 0;
-		for (NODE* i = ds.Head;i != NULL;i = i->Next)
+		for (NODE *i = ds.Head; i != NULL; i = i->Next)
 		{
 			dem++;
 			if (dem == vt)
 			{
-				NODE* g = i->Pre;
+				NODE *g = i->Pre;
 				p->Next = i;
 				i->Pre = p;
 				g->Next = p;
@@ -155,8 +152,8 @@ void ThemGiua(LIST& ds, NODE* p, int vt)
 		}
 	}
 }
-//Xoa
-void XoaDau(LIST& ds)
+// Xoa
+void XoaDau(LIST &ds)
 {
 	if (ds.Head == NULL)
 	{
@@ -164,14 +161,14 @@ void XoaDau(LIST& ds)
 	}
 	else
 	{
-		NODE* p = ds.Head;
+		NODE *p = ds.Head;
 		ds.Head = ds.Head->Next;
 		ds.Head->Pre = NULL;
 		delete p;
 	}
 }
 
-void XoaCuoi(LIST& ds)
+void XoaCuoi(LIST &ds)
 {
 	if (ds.Head == NULL)
 	{
@@ -179,7 +176,7 @@ void XoaCuoi(LIST& ds)
 	}
 	else
 	{
-		NODE* p = ds.Tail;
+		NODE *p = ds.Tail;
 		ds.Tail = ds.Tail->Pre;
 		ds.Tail->Next = NULL;
 
@@ -189,7 +186,7 @@ void XoaCuoi(LIST& ds)
 void XoaViTriK(LIST &ds, int k)
 {
 	int TongVe = TongSoLuongVe(ds);
-	int dem=0;
+	int dem = 0;
 	if (k <= 1)
 		XoaDau(ds);
 	else if (k >= TongVe)
@@ -198,13 +195,13 @@ void XoaViTriK(LIST &ds, int k)
 	}
 	else
 	{
-		for (NODE* i = ds.Head;i != NULL;i = i->Next)
+		for (NODE *i = ds.Head; i != NULL; i = i->Next)
 		{
 			dem++;
 			if (dem == k)
 			{
-				NODE* P = i->Pre;
-				NODE* N = i->Next;
+				NODE *P = i->Pre;
+				NODE *N = i->Next;
 				P->Next = N;
 				N->Pre = P;
 				delete i;
@@ -213,16 +210,16 @@ void XoaViTriK(LIST &ds, int k)
 	}
 }
 
-void QuickSort(LIST& ds)
+void QuickSort(LIST &ds)
 {
 	LIST l1, l2;
-	NODE* tag, * p;
+	NODE *tag, *p;
 	if (ds.Head == ds.Tail)
 		return;
 	KhoiTaoDanhSach(l1);
 	KhoiTaoDanhSach(l2);
 	tag = ds.Head;
-	ds.Head = tag->Next; //cap nhat ds.head
+	ds.Head = tag->Next; // cap nhat ds.head
 	tag->Next = NULL;
 	while (ds.Head != NULL)
 	{
@@ -257,39 +254,42 @@ void QuickSort(LIST& ds)
 }
 
 // Doc du lieu 1 ve tu file
-void Doc1Ve(ifstream& filein, VE& v)
+void Doc1Ve(ifstream &filein, VE &v)
 {
 	getline(filein, v.HangBay, ',');
-	filein.seekg(1, 1);
+	// filein.seekg(1, ios::cur);
 	getline(filein, v.MaChuyenBay, ',');
-	filein.seekg(1, 1);
+	// filein.seekg(1, ios::cur);
 	getline(filein, v.TenKhachHang, ',');
-	filein.seekg(1, 1);
+	// filein.seekg(1, ios::cur);
 	filein >> v.cccd;
-	filein.ignore();
-	filein.seekg(1, 1);
+	// filein.ignore();
+	// filein.seekg(1, ios::cur);
 	getline(filein, v.SoGhe, ',');
-	filein.seekg(1, 1);
+	// filein.seekg(1, ios::cur);
 	getline(filein, v.DiemDi, ',');
-	filein.seekg(1, 1);
+	// filein.seekg(1, ios::cur);
 	getline(filein, v.DiemDen, ',');
-	filein.seekg(1, 1);
+	// filein.seekg(1, ios::cur);
 	filein >> v.cua;
-	filein.ignore();
-	filein.seekg(1, 1);
+	// filein.ignore();
+	// filein.seekg(1, ios::cur);
 	DocDate(filein, v.ThoiGianKhoiHanh);
-	filein.seekg(1, 1);
+	// filein.seekg(1, ios::cur);
 	filein >> v.ThoiGianBay;
 }
 
-void DocDanhSachVe(ifstream& filein, LIST& ds)
+void DocDanhSachVe(ifstream &filein, LIST &ds)
 {
 	while (!filein.eof())
 	{
+		cout << "NGu";
 		VE v;
 		Doc1Ve(filein, v);
-		NODE* p=TaoNode(v);
+		NODE *p = TaoNode(v);
 		ThemCuoi(ds, p);
+		if (filein.eof())
+			break;
 	}
 }
 
@@ -304,21 +304,22 @@ void Xuat(VE v)
 	cout << "\nNoi den: " << v.DiemDen;
 	cout << "\nCua: " << v.cua;
 	cout << "\nThoi gian khoi hanh: " << v.ThoiGianKhoiHanh.day << "/" << v.ThoiGianKhoiHanh.mon << "/" << v.ThoiGianKhoiHanh.year << "\t" << v.ThoiGianKhoiHanh.hour << ":" << v.ThoiGianKhoiHanh.min;
-	cout << "\nThoi gian bay: " << v.ThoiGianBay<<" tieng";
+	cout << "\nThoi gian bay: " << v.ThoiGianBay << " tieng";
 }
 
 void XuatDanhSachVe(LIST ds)
 {
 	int dem = 1;
-	for (NODE* i = ds.Head;i != NULL;i = i->Next)
+	for (NODE *i = ds.Head; i != NULL; i = i->Next)
 	{
-		cout <<"\n" << dem++ << ".";
+		cout << "\n"
+			 << dem++ << ".";
 		Xuat(i->data);
 	}
 }
-void GiaiPhongVungNho(LIST& ds)
+void GiaiPhongVungNho(LIST &ds)
 {
-	NODE* k = new NODE;
+	NODE *k = new NODE;
 	while (ds.Head != NULL)
 	{
 		k = ds.Head;
@@ -336,7 +337,6 @@ int main()
 	DocDanhSachVe(filein, ds);
 	XuatDanhSachVe(ds);
 	filein.close();
-
 
 	return 0;
 }
